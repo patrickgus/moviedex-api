@@ -31,6 +31,12 @@ function handleGetMovie(req, res) {
     );
   }
 
+  if(req.query.country) {
+    response = response.filter(movies => 
+      movies.country.toLowerCase().includes(req.query.country.toLowerCase())
+    );
+  }
+
   res.json(response);
 }
 
