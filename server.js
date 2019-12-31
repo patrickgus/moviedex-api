@@ -23,7 +23,15 @@ app.use(function validateBearerToken(req, res, next) {
 });
 
 function handleGetMovie(req, res) {
-  res.json(MOVIEDEX.movies);
+  let response = MOVIEDEX.movies;
+
+  if(req.query.genre) {
+    response = response.filter(movies =>
+      movies.genre.toLowerCase().includes(req.query.genre.toLowerCase())
+    );
+  }
+
+  res.json(response);
 }
 
 app.get("/movie", handleGetMovie);
