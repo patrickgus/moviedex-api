@@ -37,6 +37,12 @@ function handleGetMovie(req, res) {
     );
   }
 
+  if(req.query.avg_vote) {
+    response = response.filter(movies => 
+      Number(movies.avg_vote) >= Number(req.query.avg_vote)
+    );
+  }
+
   res.json(response);
 }
 
