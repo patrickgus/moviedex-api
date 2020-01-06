@@ -7,7 +7,8 @@ const MOVIEDEX = require("./moviedex.json");
 
 const app = express();
 
-app.use(morgan("dev"));
+const morganSetting = process.env.NODE_ENV === "production" ? "tiny" : "common";
+app.use(morgan(morganSetting));
 app.use(helmet());
 app.use(cors());
 
@@ -25,21 +26,21 @@ app.use(function validateBearerToken(req, res, next) {
 function handleGetMovie(req, res) {
   let response = MOVIEDEX.movies;
 
-  if(req.query.genre) {
+  if (req.query.genre) {
     response = response.filter(movies =>
       movies.genre.toLowerCase().includes(req.query.genre.toLowerCase())
     );
   }
 
-  if(req.query.country) {
-    response = response.filter(movies => 
+  if (req.query.country) {
+    response = response.filter(movies =>
       movies.country.toLowerCase().includes(req.query.country.toLowerCase())
     );
   }
 
-  if(req.query.avg_vote) {
-    response = response.filter(movies => 
-      Number(movies.avg_vote) >= Number(req.query.avg_vote)
+  if (req.query.avg_vote) {
+    response = response.filter(
+      movies => Number(movies.avg_vote) >= Number(req.query.avg_vote)
     );
   }
 
